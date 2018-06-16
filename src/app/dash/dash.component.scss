@@ -1,0 +1,14 @@
+.dash{
+    .listings{
+        width: 30%;
+        display: inline-block;
+        .selected{
+            background-color: skyblue;
+        }
+    }
+    .desc{
+        position: absolute;
+        width: 70%;
+        display: inline-block;
+    }
+}

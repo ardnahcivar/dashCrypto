@@ -1,0 +1,24 @@
+<div class="login">
+  <div class="left">
+    <!--<h1>Block</h1>-->
+    <!--<p>{{data | json}}</p>-->
+  </div>
+  <div class="login-form container">
+    <p class="login-form-title">login works!</p>
+    <div class="">
+      <form action="">
+        <div class="form-group">
+          <label for="name">write the name</label>
+          <input type="text" name="firstName" [(ngModel)]="firstName" placeholder="enter name here" value="" id="name" class="form-control"
+            required autocomplete="off">
+        </div>
+        <div class="form-group">
+          <label for="name">write the name</label>
+          <input type="text" name="lastName" [(ngModel)]="lastName" placeholder="enter name here" value="" id="name" class="form-control"
+            required autocomplete="off">
+        </div>
+        <button type="submit" class="btn-small btn-primary" (click)="onLogin()">submit</button>
+      </form>
+    </div>
+  </div>
+</div>

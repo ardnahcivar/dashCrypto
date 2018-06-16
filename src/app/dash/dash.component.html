@@ -1,0 +1,13 @@
+<div class="dash">
+  <div class="listings">
+    <ul>
+      <li *ngFor="let dc of dcList">
+        <div [class.selected]="dc.id === selectedDc" (click)="selected(dc)">{{dc.name }}</div>
+      </li>
+    </ul>
+  </div>
+
+  <div class="desc" *ngIf="selectedDc">
+    <app-desc [desc]="selectedDc"></app-desc>
+  </div>
+</div>
