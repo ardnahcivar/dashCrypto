@@ -1,25 +1,23 @@
 import { Injectable } from '@angular/core';
-import { HttpClient,HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpHeaders,  } from '@angular/common/http';
+
+const httpOptions = {
+  headers: new HttpHeaders({
+    'Content-Type':  'application/json',
+  'Access-Control-Allow-Origin': '*'
+  })
+};
 
 @Injectable({
   providedIn: 'root'
 })
 export class CryptoDataService {
-  private cryptoList: any;
-  private url: string = "https://min-api.cryptocompare.com/v2/listings";
+  private url: string = "https://min-api.cryptocompare.com/data/all/coinlist";
+  private cryptoList = [];
+  constructor(private http: HttpClient) {
+   }
 
-  constructor(private http: HttpClient) { }
-
-  getData() {
-    const httpOptions = {
-      headers: new HttpHeaders({
-        'Content-Type':  'application/json',
-      'Access-Control-Allow-Origin': '*'
-      })
-    };
-    // let headers = new Headers();
-    // headers.append('Content-Type','application/json');
-    // headers.append('Access-Control-Allow-Origin', '*');
-    return this.http.get(this.url);
+  getCryptoList() {
+      return this.http.get(this.url);
   }
 }

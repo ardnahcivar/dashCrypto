@@ -7,11 +7,7 @@ import { Console } from '@angular/core/src/console';
 })
 export class SocketService {
 
-  constructor(private socket: Socket) {
-    this.socket.emit('SubAdd', { subs: ['0~RUPAY~BTC~RUP'] } );
-    this.socket.on('m', (data) => {
-      console.log(data);
-} );
+  constructor() {
   }
 
   subAdd(data) {

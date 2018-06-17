@@ -13,6 +13,6 @@ export class AppComponent {
     this.socket.subsribe((data) => {
       alert(data);
     } );
-  }
+}
 
 }
