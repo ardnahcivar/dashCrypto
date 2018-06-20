@@ -2,9 +2,7 @@
   <div class="listings">
     <ul>
       <li *ngFor="let dc of dcList">
-        <div  [class.selected]="dc.Id === selectedDc" (click)="selected(dc)">{{dc.Name }}
-          <div [attr.id]="dc.Symbol"></div>
-        </div>
+        <div [class.selected]="dc.id === selectedDc" (click)="selected(dc)">{{dc.name }}</div>
       </li>
     </ul>
   </div>
@@ -12,4 +10,17 @@
   <div class="desc" *ngIf="selectedDc">
     <app-desc [desc]="selectedDc"></app-desc>
   </div>
-</div>        
+</div>
+
+<form [formGroup]="Cryptoform">
+  <select formControlName="exchanges">
+    <option *ngFor="let s of exchanges" [value]="s">{{s}}</option>
+  </select>
+  <select formControlName="fromCurr">
+    <option *ngFor="let c of fromCurr" [value]="c">{{c}}</option>
+  </select>
+  <select formControlName="toCurr">
+    <option *ngFor="let sc of toCurr" [value]="sc">{{sc}}</option>
+  </select>
+  <button type="" (click)="addToDashboard()"></button>
+</form>

@@ -4,7 +4,7 @@ import { HttpClient, HttpHeaders,  } from '@angular/common/http';
 const httpOptions = {
   headers: new HttpHeaders({
     'Content-Type':  'application/json',
-  'Access-Control-Allow-Origin': '*'
+    'Access-Control-Allow-Origin': '*'
   })
 };
 
@@ -12,12 +12,14 @@ const httpOptions = {
   providedIn: 'root'
 })
 export class CryptoDataService {
-  private url: string = "https://min-api.cryptocompare.com/data/all/coinlist";
-  private cryptoList = [];
-  constructor(private http: HttpClient) {
-   }
 
-  getCryptoList() {
-      return this.http.get(this.url);
+  constructor(private http: HttpClient) {}
+
+  getHttp(url) {
+      return this.http.get(url);
+  }
+
+  postHttp() {
+
   }
 }
