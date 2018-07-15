@@ -1,5 +1,7 @@
-import { Injectable } from '@angular/core';
+import { Injectable, OnInit } from '@angular/core';
 import { HttpClient, HttpHeaders,  } from '@angular/common/http';
+import { Observable } from 'rxjs/internal/Observable';
+import { BehaviorSubject } from 'rxjs/internal/BehaviorSubject';
 
 const httpOptions = {
   headers: new HttpHeaders({
@@ -13,7 +15,30 @@ const httpOptions = {
 })
 export class CryptoDataService {
 
-  constructor(private http: HttpClient) {}
+  private coinListUrl = 'https://min-api.cryptocompare.com/data/all/coinlist';
+  private coinsList = new BehaviorSubject<any>([]);
+
+  constructor(private http: HttpClient) {
+    let temp: any = [];
+    this.http.get(this.coinListUrl).subscribe((coins) => {
+      const  breakpoint = 1;
+      const nos = 200;
+      let started: boolean = false;
+      for (let p in coins.Data) {
+        if (started) {
+          temp.push(coins['Data'][p]);
+        }
+        if (coins['Data'][p].SortOrder == breakpoint.toString()) {
+          temp.push(coins['Data'][p]);
+          started = true;
+        }
+        if( temp.length === nos) {
+          break;
+        }
+      }
+      this.coinsList.next(temp);
+    });
+  }
 
   getHttp(url) {
       return this.http.get(url);
@@ -21,5 +46,9 @@ export class CryptoDataService {
 
   postHttp() {
 
+  }
+
+  getCoinList() {
+    return this.coinsList;
   }
 }

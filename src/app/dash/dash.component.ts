@@ -1,7 +1,11 @@
 import { Component, OnInit } from '@angular/core';
-import { CryptoDataService } from './../crypto-data.service'
-import { DescComponent } from './../desc/desc.component'
+import { CryptoDataService } from './../crypto-data.service';
+import { DescComponent } from './../desc/desc.component';
 import { FormControl, FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { Socket } from 'ng-socket-io';
+import { Observable } from 'rxjs/internal/Observable';
+
+let s = [];
 
 @Component({
   selector: 'app-dash',
@@ -16,11 +20,16 @@ export class DashComponent implements OnInit {
   private exchangeObj: any;
   private fromCurr = [];
   private toCurr = [];
+  private coinList: Observable<any>[] = [];
 
-  constructor(private crypto: CryptoDataService, private fb: FormBuilder) {
+  constructor(private crypto: CryptoDataService, private fb: FormBuilder, private socket: Socket) {
     this.crypto.getHttp('https://min-api.cryptocompare.com/data/all/exchanges').subscribe((exList: any) => {
       this.exchanges = Object.keys(exList);
       this.exchangeObj = exList;
+    });
+
+    this.crypto.getCoinList().subscribe((c) => {
+      this.coinList = c;
     });
 
     this.Cryptoform = this.fb.group({
@@ -38,6 +47,15 @@ export class DashComponent implements OnInit {
         return;
       }
     });
+  //   (async () => {
+  //     let kraken = new ccxt.kraken ();
+  //     let markets = await kraken.load_markets ();
+  //     console.log (kraken.id, markets);
+  // }) ();
+
+  this.socket.on('m', (data) => {
+    console.log(data);
+  });
 
   }
 
@@ -55,13 +73,13 @@ export class DashComponent implements OnInit {
     //       }
     //     });
 
-    //     this.socket.emit('SubAdd', { subs: ['5~CCCAGG~NVC~USD', '5~CCCAGG~NEO~INR', '5~CCCAGG~ETH~INR', '5~CCCAGG~MNC~INR'] } );
-    //     // this.socket.emit('subAdd', { subs: ['5~CCCAGG~BTC~INR'] });
-    //     this.socket.on('m', (data) => {
-    //       console.log(data);
-    //       // this.socket.emit('SubAdd', { subs: ['5~CCCAGG~BTC~INR'] } );
-    //       } );
-    //     });
+        // this.socket.emit('SubAdd', { subs: ['5~CCCAGG~BTC~USD'] } );
+        // this.socket.emit('subAdd', { subs: ['5~CCCAGG~BTC~INR'] });
+        // this.socket.on('m', (data) => {
+        //   console.log(data);
+        //   // this.socket.emit('SubAdd', { subs: ['5~CCCAGG~BTC~INR'] } );
+        //   } );
+        // } )
 
         // this.selectionForm.valueChanges.subscribe((selectedVal) => {
         //   if ( selectedVal.exchange ) {
@@ -78,6 +96,11 @@ export class DashComponent implements OnInit {
   }
 
   addToDashboard() {
-    console.log(this.Cryptoform.controls['toCurr'].value);
+    let exchange = this.Cryptoform.controls['exchanges'].value;
+    let fromVal = this.Cryptoform.controls['fromCurr'].value;
+    let toVal = this.Cryptoform.controls['toCurr'].value;
+    // let dict = ['subs' : ["5~CCCAGG~BTC~USD"]];
+    s.push('5~' + exchange + '~' + fromVal + '~' + toVal);
+    this.socket.emit('SubAdd', { subs: s });
   }
 }

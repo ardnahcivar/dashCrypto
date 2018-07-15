@@ -16,7 +16,9 @@ import { MoveDirective } from './move.directive';
 import { EllipsisDirective } from './ellipsis.directive';
 import { CoreModule } from './core/core.module';
 import { CoreComponent } from './coreLog/core/core.component';
-import { SocketIoModule, SocketIoConfig} from 'ng-socket-io';  // socketio module
+import { SocketIoModule, SocketIoConfig} from 'ng-socket-io';
+import { ServiceWorkerModule } from '@angular/service-worker';
+import { environment } from '../environments/environment';  // socketio module
 
 const config: SocketIoConfig = { url: 'wss://streamer.cryptocompare.com', options: {} };
 
@@ -51,7 +53,8 @@ const appRoutes: Routes = [
     RouterModule.forRoot(appRoutes, {
       enableTracing: true
     }),
-    SocketIoModule.forRoot(config)
+    SocketIoModule.forRoot(config),
+    ServiceWorkerModule.register('/ngsw-worker.js', { enabled: environment.production })
   ],
   providers: [],
   bootstrap: [AppComponent]

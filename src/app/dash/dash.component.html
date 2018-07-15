@@ -1,4 +1,4 @@
-<div class="dash">
+<!-- <div class="dash">
   <div class="listings">
     <ul>
       <li *ngFor="let dc of dcList">
@@ -23,4 +23,14 @@
     <option *ngFor="let sc of toCurr" [value]="sc">{{sc}}</option>
   </select>
   <button type="" (click)="addToDashboard()"></button>
-</form>
+</form> -->
+
+
+<div class="">
+  <ul>
+    <li *ngFor="let c of coinList">
+      <div>{{c.CoinName }}</div>
+      <img src="{{'https://cryptocompare.com'+c.ImageUrl}}" width="42" height="42" alt="{{c.CoinName}}">
+    </li>
+  </ul>
+</div>
