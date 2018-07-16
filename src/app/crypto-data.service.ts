@@ -51,4 +51,8 @@ export class CryptoDataService {
   getCoinList() {
     return this.coinsList;
   }
+
+  getPrice(name, currency) {
+    return this.http.get(`https://min-api.cryptocompare.com/data/price?fsym=${name}&tsyms=${currency}`);
+  }
 }

@@ -18,7 +18,8 @@ import { CoreModule } from './core/core.module';
 import { CoreComponent } from './coreLog/core/core.component';
 import { SocketIoModule, SocketIoConfig} from 'ng-socket-io';
 import { ServiceWorkerModule } from '@angular/service-worker';
-import { environment } from '../environments/environment';  // socketio module
+import { environment } from '../environments/environment';
+import { PricePipe } from './pipes/price.pipe';  // socketio module
 
 const config: SocketIoConfig = { url: 'wss://streamer.cryptocompare.com', options: {} };
 
@@ -42,7 +43,8 @@ const appRoutes: Routes = [
     DescComponent,
     MoveDirective,
     EllipsisDirective,
-    CoreComponent
+    CoreComponent,
+    PricePipe
   ],
   imports: [
     BrowserModule,
