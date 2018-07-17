@@ -2,6 +2,8 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { HttpClientModule } from '@angular/common/http';
+import { CurrencyPipe } from '@angular/common';
+
 
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AppComponent } from './app.component';
@@ -16,7 +18,7 @@ import { MoveDirective } from './move.directive';
 import { EllipsisDirective } from './ellipsis.directive';
 import { CoreModule } from './core/core.module';
 import { CoreComponent } from './coreLog/core/core.component';
-import { SocketIoModule, SocketIoConfig} from 'ng-socket-io';
+import { SocketIoModule, SocketIoConfig } from 'ng-socket-io';
 import { ServiceWorkerModule } from '@angular/service-worker';
 import { environment } from '../environments/environment';
 import { PricePipe } from './pipes/price.pipe';  // socketio module
@@ -58,7 +60,7 @@ const appRoutes: Routes = [
     SocketIoModule.forRoot(config),
     ServiceWorkerModule.register('/ngsw-worker.js', { enabled: environment.production })
   ],
-  providers: [],
+  providers: [CurrencyPipe],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

@@ -59,10 +59,12 @@ export class DashComponent implements OnInit {
     this.socket.on('m', (data) => {
       let splitData = data.split('~');
       console.log(splitData);
-      if (splitData[0] = "11") {
-        document.querySelector(`#${splitData[1]}`).textContent = splitData[2];
-      } else if (splitData[0] = "5" && splitData[4] != "4") {
-        document.querySelector(`#${splitData[2]}`).textContent = splitData[5];
+      if (document.querySelector(`#${splitData[1]}`) || document.querySelector(`#${splitData[2]}`)) {
+        if (splitData[0] = "11") {
+          document.querySelector(`#${splitData[1]}`).textContent = splitData[2];
+        } else if (splitData[0] = "5" && splitData[4] != "4") {
+          document.querySelector(`#${splitData[2]}`).textContent = splitData[5];
+        }
       }
     });
 
