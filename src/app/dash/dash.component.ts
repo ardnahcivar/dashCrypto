@@ -30,6 +30,15 @@ export class DashComponent implements OnInit {
 
     this.crypto.getCoinList().subscribe((c) => {
       this.coinList = c;
+      this.coinList.forEach((val: any, ind) => {
+        console.log(val);
+        console.log(ind);
+        s.push(`11~${val.Name}`);
+        s.push(`5~CCCAGG~${val.Name}~USD`);
+        if (ind == this.coinList.length - 1) {
+          this.socket.emit('SubAdd', { subs: s });
+        }
+      })
     });
 
     this.Cryptoform = this.fb.group({
@@ -47,15 +56,15 @@ export class DashComponent implements OnInit {
         return;
       }
     });
-  //   (async () => {
-  //     let kraken = new ccxt.kraken ();
-  //     let markets = await kraken.load_markets ();
-  //     console.log (kraken.id, markets);
-  // }) ();
-
-  this.socket.on('m', (data) => {
-    console.log(data);
-  });
+    this.socket.on('m', (data) => {
+      let splitData = data.split('~');
+      console.log(splitData);
+      if (splitData[0] = "11") {
+        document.querySelector(`#${splitData[1]}`).textContent = splitData[2];
+      } else if (splitData[0] = "5" && splitData[4] != "4") {
+        document.querySelector(`#${splitData[2]}`).textContent = splitData[5];
+      }
+    });
 
   }
 
@@ -73,23 +82,23 @@ export class DashComponent implements OnInit {
     //       }
     //     });
 
-        // this.socket.emit('SubAdd', { subs: ['5~CCCAGG~BTC~USD'] } );
-        // this.socket.emit('subAdd', { subs: ['5~CCCAGG~BTC~INR'] });
-        // this.socket.on('m', (data) => {
-        //   console.log(data);
-        //   // this.socket.emit('SubAdd', { subs: ['5~CCCAGG~BTC~INR'] } );
-        //   } );
-        // } )
+    // this.socket.emit('SubAdd', { subs: ['5~CCCAGG~BTC~USD'] } );
+    // this.socket.emit('subAdd', { subs: ['5~CCCAGG~BTC~INR'] });
+    // this.socket.on('m', (data) => {
+    //   console.log(data);
+    //   // this.socket.emit('SubAdd', { subs: ['5~CCCAGG~BTC~INR'] } );
+    //   } );
+    // } )
 
-        // this.selectionForm.valueChanges.subscribe((selectedVal) => {
-        //   if ( selectedVal.exchange ) {
-        //       this.exchangesList = Object.keys(this.exchangeObj[selectedVal.exchange]);
-        //       if ( selectedVal.fromCurr  ) {
-        //           this.fromCurr = this.exchangeObj[selectedVal.exchange][selectedVal.fromCurr];
-        //       }
-        //       return;
-        //   }
-        // });
+    // this.selectionForm.valueChanges.subscribe((selectedVal) => {
+    //   if ( selectedVal.exchange ) {
+    //       this.exchangesList = Object.keys(this.exchangeObj[selectedVal.exchange]);
+    //       if ( selectedVal.fromCurr  ) {
+    //           this.fromCurr = this.exchangeObj[selectedVal.exchange][selectedVal.fromCurr];
+    //       }
+    //       return;
+    //   }
+    // });
   }
   selected(dc) {
     this.selectedDc = dc.id;

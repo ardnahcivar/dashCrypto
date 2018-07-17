@@ -1,11 +1,11 @@
 import { Injectable, OnInit } from '@angular/core';
-import { HttpClient, HttpHeaders,  } from '@angular/common/http';
+import { HttpClient, HttpHeaders, } from '@angular/common/http';
 import { Observable } from 'rxjs/internal/Observable';
 import { BehaviorSubject } from 'rxjs/internal/BehaviorSubject';
 
 const httpOptions = {
   headers: new HttpHeaders({
-    'Content-Type':  'application/json',
+    'Content-Type': 'application/json',
     'Access-Control-Allow-Origin': '*'
   })
 };
@@ -16,12 +16,14 @@ const httpOptions = {
 export class CryptoDataService {
 
   private coinListUrl = 'https://min-api.cryptocompare.com/data/all/coinlist';
+  private coinSnap = 'https://www.cryptocompare.com/api/data/coinsnapshotfullbyid/';
+
   private coinsList = new BehaviorSubject<any>([]);
 
   constructor(private http: HttpClient) {
     let temp: any = [];
-    this.http.get(this.coinListUrl).subscribe((coins) => {
-      const  breakpoint = 1;
+    this.http.get(this.coinListUrl).subscribe((coins: any) => {
+      const breakpoint = 1;
       const nos = 200;
       let started: boolean = false;
       for (let p in coins.Data) {
@@ -32,7 +34,7 @@ export class CryptoDataService {
           temp.push(coins['Data'][p]);
           started = true;
         }
-        if( temp.length === nos) {
+        if (temp.length === nos) {
           break;
         }
       }
@@ -41,7 +43,7 @@ export class CryptoDataService {
   }
 
   getHttp(url) {
-      return this.http.get(url);
+    return this.http.get(url);
   }
 
   postHttp() {
@@ -54,5 +56,9 @@ export class CryptoDataService {
 
   getPrice(name, currency) {
     return this.http.get(`https://min-api.cryptocompare.com/data/price?fsym=${name}&tsyms=${currency}`);
+  }
+
+  getCoinSnap(id: Number) {
+    return this.http.get(`${this.coinSnap}id=${id}`);
   }
 }
