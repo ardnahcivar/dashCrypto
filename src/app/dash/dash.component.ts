@@ -1,9 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef, AfterViewInit } from '@angular/core';
 import { CryptoDataService } from './../crypto-data.service';
 import { DescComponent } from './../desc/desc.component';
 import { FormControl, FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Socket } from 'ng-socket-io';
 import { Observable } from 'rxjs/internal/Observable';
+import { PricePipe } from './../pipes/price.pipe';
 
 let s = [];
 
@@ -12,7 +13,7 @@ let s = [];
   templateUrl: './dash.component.html',
   styleUrls: ['./dash.component.scss']
 })
-export class DashComponent implements OnInit {
+export class DashComponent implements OnInit, AfterViewInit {
 
   private selectedDc: any = null;
   private Cryptoform: FormGroup;
@@ -22,7 +23,8 @@ export class DashComponent implements OnInit {
   private toCurr = [];
   private coinList: Observable<any>[] = [];
 
-  constructor(private crypto: CryptoDataService, private fb: FormBuilder, private socket: Socket) {
+
+  constructor(private crypto: CryptoDataService, private fb: FormBuilder, private socket: Socket, private elementRef: ElementRef, private pp: PricePipe) {
     this.crypto.getHttp('https://min-api.cryptocompare.com/data/all/exchanges').subscribe((exList: any) => {
       this.exchanges = Object.keys(exList);
       this.exchangeObj = exList;
@@ -59,11 +61,11 @@ export class DashComponent implements OnInit {
     this.socket.on('m', (data) => {
       let splitData = data.split('~');
       console.log(splitData);
-      if (document.querySelector(`#${splitData[1]}`) || document.querySelector(`#${splitData[2]}`)) {
-        if (splitData[0] = "11") {
-          document.querySelector(`#${splitData[1]}`).textContent = splitData[2];
-        } else if (splitData[0] = "5" && splitData[4] != "4") {
-          document.querySelector(`#${splitData[2]}`).textContent = splitData[5];
+      if (this.elementRef.nativeElement.querySelector(`#${splitData[1]}`) || this.elementRef.nativeElement.querySelector(`#${splitData[2]}`)) {
+        if (splitData[0] = "11" && splitData[4] != "4" && splitData[1] != "CCCAGG") {
+          this.elementRef.nativeElement.querySelector(`#${splitData[1]}`).textContent = pp.transform(splitData[2]);
+        } else if (splitData[0] = "5" && splitData[4] != "4" && splitData[2] != "CCCAGG") {
+          this.elementRef.nativeElement.querySelector(`#${splitData[2]}`).textContent = pp.transform(splitData[5]);
         }
       }
     });
@@ -71,37 +73,13 @@ export class DashComponent implements OnInit {
   }
 
   ngOnInit() {
-    // this.crypto.getHttp(this.url).subscribe((cryptList: any) => {
-    //     this.dcList = Object.values(cryptList.Data);
-    //     console.log(this.dcList);
-    //     let subs: any = [];
-    //     this.dcList.forEach((curr, index) => {
-    //       if (index > 5 ) {
-    //         return -1;
-    //       } else {
-    //         console.log(curr.Symbol);
-    //         subs.push('5~CCCAGGG~' + curr.Symbol + 'INR');
-    //       }
-    //     });
-
-    // this.socket.emit('SubAdd', { subs: ['5~CCCAGG~BTC~USD'] } );
-    // this.socket.emit('subAdd', { subs: ['5~CCCAGG~BTC~INR'] });
-    // this.socket.on('m', (data) => {
-    //   console.log(data);
-    //   // this.socket.emit('SubAdd', { subs: ['5~CCCAGG~BTC~INR'] } );
-    //   } );
-    // } )
-
-    // this.selectionForm.valueChanges.subscribe((selectedVal) => {
-    //   if ( selectedVal.exchange ) {
-    //       this.exchangesList = Object.keys(this.exchangeObj[selectedVal.exchange]);
-    //       if ( selectedVal.fromCurr  ) {
-    //           this.fromCurr = this.exchangeObj[selectedVal.exchange][selectedVal.fromCurr];
-    //       }
-    //       return;
-    //   }
-    // });
   }
+
+  ngAfterViewInit() {
+    //Called after ngAfterContentInit when the component's view has been initialized. Applies to components only.
+    //Add 'implements AfterViewInit' to the class.
+  }
+
   selected(dc) {
     this.selectedDc = dc.id;
   }

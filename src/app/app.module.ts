@@ -60,7 +60,7 @@ const appRoutes: Routes = [
     SocketIoModule.forRoot(config),
     ServiceWorkerModule.register('/ngsw-worker.js', { enabled: environment.production })
   ],
-  providers: [CurrencyPipe],
+  providers: [CurrencyPipe, PricePipe],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

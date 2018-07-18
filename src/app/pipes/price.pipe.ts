@@ -12,7 +12,7 @@ export class PricePipe implements PipeTransform {
 
   transform(value: any, args?: any): any {
     let temp = value;
-    return this.currencyPipe.transform(value, 'USD', false);
+    return this.currencyPipe.transform(value, 'USD', true, '4.2-2');
   }
 
 }
