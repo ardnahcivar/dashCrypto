@@ -24,7 +24,7 @@ export class CryptoDataService {
     let temp: any = [];
     this.http.get(this.coinListUrl).subscribe((coins: any) => {
       const breakpoint = 1;
-      const nos = 200;
+      const nos = 1000;
       let started: boolean = false;
       for (let p in coins.Data) {
         if (started) {

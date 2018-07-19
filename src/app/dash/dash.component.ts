@@ -35,7 +35,7 @@ export class DashComponent implements OnInit, AfterViewInit {
       this.coinList.forEach((val: any, ind) => {
         console.log(val);
         console.log(ind);
-        s.push(`11~${val.Name}`);
+        // s.push(`11~${val.Name}`);
         s.push(`5~CCCAGG~${val.Name}~USD`);
         if (ind == this.coinList.length - 1) {
           this.socket.emit('SubAdd', { subs: s });
@@ -61,10 +61,21 @@ export class DashComponent implements OnInit, AfterViewInit {
     this.socket.on('m', (data) => {
       let splitData = data.split('~');
       console.log(splitData);
-      if (this.elementRef.nativeElement.querySelector(`#${splitData[1]}`) || this.elementRef.nativeElement.querySelector(`#${splitData[2]}`)) {
-        if (splitData[0] = "11" && splitData[4] != "4" && splitData[1] != "CCCAGG") {
+      if (splitData[2].includes('*')) {
+        console.log(splitData[2]);
+        splitData[2] = splitData[2].replace(/[^a-zA-Z ]/g, '');
+        splitData[2] = splitData[2] + '\\*';
+      }
+      if (splitData[1].includes('*')) {
+        console.log(splitData[1]);
+        splitData[1] = splitData[1].replace(/[^a-zA-Z ]/g, '');
+        splitData[1] = splitData[1] + '\\*';
+      }
+      if (this.elementRef.nativeElement.querySelector(`#${splitData[1]}`) ||
+       this.elementRef.nativeElement.querySelector(`#${splitData[2]}`)) {
+        if (splitData[0] = '11' && splitData[4] !== '4' && splitData[1] !== 'CCCAGG') {
           this.elementRef.nativeElement.querySelector(`#${splitData[1]}`).textContent = pp.transform(splitData[2]);
-        } else if (splitData[0] = "5" && splitData[4] != "4" && splitData[2] != "CCCAGG") {
+        } else if (splitData[0] = '5' && splitData[4] !== '4' && splitData[2] !== 'CCCAGG') {
           this.elementRef.nativeElement.querySelector(`#${splitData[2]}`).textContent = pp.transform(splitData[5]);
         }
       }
