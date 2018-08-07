@@ -1,9 +1,10 @@
 .dash{
+    color: white;
     .listings{
         width: 30%;
         display: inline-block;
         .selected{
-            background-color: skyblue;
+            background-color: red;
         }
     }
     .desc{
@@ -13,7 +14,18 @@
     }
 }
 
-li{
+.blk{
     width:100px;
-    display: inline-block;
+    display: flex;
+    .coin-name{
+        color:white;
+        font-size: 5rem;
+    }
+    div{
+        display: inline;
+    }
+}
+.price{
+    color:white;
+    font-size: 5rem;
 }

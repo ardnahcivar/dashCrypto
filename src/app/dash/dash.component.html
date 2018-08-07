@@ -27,11 +27,11 @@
 
 
 <div class="">
-  <ul>
-    <li *ngFor="let c of coinList">
-      <div>{{c.CoinName }}</div>
-      <div [attr.id]="c.Name"></div>
-      <img src="{{'https://cryptocompare.com'+c.ImageUrl}}" width="42" height="42" alt="{{c.CoinName}}">
-    </li>
-  </ul>
+    <div *ngFor="let c of coinList">
+      <div class="blk">
+        <img class="coin_img"src="{{'https://cryptocompare.com'+c.ImageUrl}}" width="120" height="120" alt="{{c.CoinName}}">      
+        <p class="coin-name">{{c.CoinName }}</p>
+      </div>
+      <p class="price" [attr.id]="c.Name"></p>
+    </div>
 </div>
